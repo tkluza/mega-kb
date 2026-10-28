@@ -1,7 +1,7 @@
 <script lang="ts">
   import reports from '#lib/data/reports-4471.json';
   import notes from '#lib/data/desk-notes.json';
-  import { uniqueById, type Report } from '#lib/kb/causes';
+  import { readAs, uniqueById, type Report } from '#lib/kb/causes';
   import { groupByProblem, type Problem } from '#lib/kb/problems';
   import { tenantOf } from '#lib/kb/locales';
 
@@ -44,7 +44,15 @@
   </tbody>
 </table>
 
+{#each groups as g (g.problem)}
+  {@const moved = g.problem === 'one-day move' ? 0 : readAs(g, notes.oneDayMove)}
+  {#if moved}
+    <p class="note">{moved} of the <code>{g.problem}</code> reports are one-day moves: counted where the desk files them, by tenant, and in their own row.</p>
+  {/if}
+{/each}
+
 <style>
+  .note { color: var(--muted); font-size: 0.85em; }
   .sum { font-size: 1.1rem; }
   .tags { color: var(--muted); font-size: 0.85em; }
 </style>

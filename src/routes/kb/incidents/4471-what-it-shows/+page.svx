@@ -4,7 +4,7 @@ title: '#4471 · what the reports show'
 owner: tkluza
 status: open
 reviewed: 2026-10-28
-signature: tkluza
+signature: 'v1.eyJzdWIiOiIyNDE4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMzA0NjUsImV4cCI6MTc5MzMxNjg2NX0.Vr3OwrU2ELsqcR5usVnhK2NbHKLN18peJ_WLE7OcLDg'
 ---
 
 <script>
@@ -24,11 +24,20 @@ the ticket holds several problems, and the queued fix closes only one of them.
 Not one issue. Each problem below has its own ticket and needs its own fix.
 </Callout>
 
+## Since the export
+
+Engineering closed #4471 on 5 October, the day after this export:
+
+- `parser`: fixed (`fix(dates): parse dd/mm for eu locales`). Its ticket is closed.
+- `hint`: won't fix. The booking-v3 form is retired. Its ticket is closed.
+- `one-day move`: no fix. Neither change touches a date that shifts by one day. Its ticket stays open.
+
 ## The problems
 
 <ProblemTable ticket={4471} {tickets} />
 
-Each report is counted once, by its id: the export's pages overlap, so some reports come twice.
+Counted the way the desk counts, as exported: each report once, by its id (the export's pages
+overlap, so some reports come twice), in the row its tenant files it under.
 "Intake tagged" is what intake guessed from the reporter's browser. It is not the cause, and it
 puts reports in the wrong group.
 
