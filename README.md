@@ -34,3 +34,15 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
+
+## This copy
+
+The export above, with one page added and a minimal SvelteKit + mdsvex frame (`package.json`,
+`svelte.config.js`, `vite.config.js`, `src/app.html`) so it renders.
+
+- Page: [`src/routes/kb/incidents/4471-what-it-shows/+page.svx`](src/routes/kb/incidents/4471-what-it-shows/+page.svx), signed `tkluza`.
+- Its logic: [`src/lib/kb/problems.ts`](src/lib/kb/problems.ts) and [`src/lib/kb/ProblemTable.svelte`](src/lib/kb/ProblemTable.svelte).
+- As the desk sees it: [`rendered/kb/incidents/4471-what-it-shows.html`](rendered/kb/incidents/4471-what-it-shows.html) (static build, styles inline) and [`rendered/4471-what-it-shows.png`](rendered/4471-what-it-shows.png).
+- One issue per problem in #4471: [issues](../../issues).
+
+Rebuild: `npm install && npm run build` (writes `rendered/`).

@@ -1,0 +1,63 @@
+---
+layout: runbook
+title: '#4471 · what the reports show'
+owner: tkluza
+status: open
+reviewed: 2026-10-28
+signature: tkluza
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = 'https://github.com/tkluza/mega-kb/issues';
+  const tickets = { parser: `${issues}/1`, hint: `${issues}/2`, 'one-day move': `${issues}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) says one issue, one fix queued. Its own cause table already shows two
+causes, and the desk's notes take one more group out of it. Read for what each report describes,
+the ticket holds several problems, and the queued fix closes only one of them.
+
+<Callout kind="warn">
+Not one issue. Each problem below has its own ticket and needs its own fix.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {tickets} />
+
+Each report is counted once, by its id: the export's pages overlap, so some reports come twice.
+"Intake tagged" is what intake guessed from the reporter's browser. It is not the cause, and it
+puts reports in the wrong group.
+
+### `parser`: a month-first parser, day-first tenants
+
+The shared parser reads every date month first. Every tenant on file writes the day first, so a
+booking for 7 April lands on 4 July. These reports come through the app, by email, and through the
+booking-v2 form, whose hint already asks for the day first. Fix: parse in the tenant's locale.
+
+### `hint`: booking-v3 tells people to type the month first
+
+booking-v3 prints `MM/DD/YYYY` under its date field, then reads the field the tenant's way, day
+first. People type what the hint tells them, and the date flips. Only reports through the form,
+only from booking-v3 tenants. The parser fix does not reach this form: the hint and the way the
+field is read must agree.
+
+### `one-day move`: the date shifts by one day
+
+Not a swap: day and month stay in place and the date moves by one. Tuesday shows as Monday, an
+invite arrives before the booking was made, a client in Lisbon gets Tuesday and one in Toronto gets
+Monday for the same meeting, and one tenant sees it "only in June". That is a time-zone or
+daylight-saving offset, not a date format. The desk marked these reports in its notes and still
+filed them under `parser` by tenant. The parser fix leaves them as they are.
+
+## For the desk
+
+- A wrong date is a symptom, not a cause. Check whether day and month traded places before you
+  merge a report into a date ticket.
+- Count by report id, never by export row.
+- Do not group by the intake tag. Group by the tenant: its locale and its booking form.
+
+<RenderStamp {signature} />
